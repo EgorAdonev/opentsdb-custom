@@ -1,0 +1,5 @@
+
+plot  "${TMPDIR-'tmp'}/tsd/fc2d4ec6_0.dat" using 1:2 smooth csplines title "sys.cpu.user{host=web03}"
+                                                   ^
+"${TMPDIR-'tmp'}/tsd/fc2d4ec6.gnuplot", line 12: Cannot smooth: no data within fixed xrange!
+
