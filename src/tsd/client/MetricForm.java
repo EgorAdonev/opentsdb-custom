@@ -50,15 +50,15 @@ final class MetricForm extends HorizontalPanel implements Focusable {
   private final EventsHandler events_handler;
   private MetricChangeHandler metric_change_handler;
 
-  private final CheckBox downsample = new CheckBox("Downsample");
+  private final CheckBox downsample = new CheckBox("Даунсэмплинг");
   private final ListBox downsampler = new ListBox();
   private final ValidatedTextBox interval = new ValidatedTextBox();
   private final ListBox fill_policy = new ListBox();
-  private final CheckBox rate = new CheckBox("Rate");
-  private final CheckBox rate_counter = new CheckBox("Rate Ctr");
+  private final CheckBox rate = new CheckBox("Скорость изменений(dx/dt)");
+  private final CheckBox rate_counter = new CheckBox("Счетчик скорости изменений");
   private final TextBox counter_max = new TextBox();
   private final TextBox counter_reset_value = new TextBox();
-  private final CheckBox x1y2 = new CheckBox("Right Axis");
+  private final CheckBox x1y2 = new CheckBox("Правая ось");
   private final ListBox aggregators = new ListBox();
   private final ValidatedTextBox metric = new ValidatedTextBox();
   private final FlexTable tagtable = new FlexTable();
@@ -307,7 +307,7 @@ final class MetricForm extends HorizontalPanel implements Focusable {
     {  // Left hand-side panel.
       final HorizontalPanel hbox = new HorizontalPanel();
       final InlineLabel l = new InlineLabel();
-      l.setText("Metric:");
+      l.setText("Метрика:");
       hbox.add(l);
       final SuggestBox suggest = RemoteOracle.newSuggestBox("metrics",
                                                             metric);
@@ -333,14 +333,14 @@ final class MetricForm extends HorizontalPanel implements Focusable {
       }
       {
         final HorizontalPanel hbox = new HorizontalPanel();
-        final InlineLabel l = new InlineLabel("Rate Ctr Max:");
+        final InlineLabel l = new InlineLabel("Счетчик скорости изменений макс:");
         hbox.add(l);
         hbox.add(counter_max);
         vbox.add(hbox);
       }
       {
         final HorizontalPanel hbox = new HorizontalPanel();
-        final InlineLabel l = new InlineLabel("Rate Ctr Reset:");
+        final InlineLabel l = new InlineLabel("Счетчик скорости изменений Сброс:");
         hbox.add(l);
         hbox.add(counter_reset_value);
         vbox.add(hbox);
@@ -348,7 +348,7 @@ final class MetricForm extends HorizontalPanel implements Focusable {
       {
         final HorizontalPanel hbox = new HorizontalPanel();
         final InlineLabel l = new InlineLabel();
-        l.setText("Aggregator:");
+        l.setText("Агрегатор:");
         hbox.add(l);
         hbox.add(aggregators);
         vbox.add(hbox);
@@ -377,8 +377,8 @@ final class MetricForm extends HorizontalPanel implements Focusable {
       downsampler.addItem((String)agg);
     }
  // TODO: don't assume we will get these.
-    setSelectedItem(aggregators, "sum");
-    setSelectedItem(downsampler, "avg");
+    setSelectedItem(aggregators, "сум");
+    setSelectedItem(downsampler, "сред");
   }
   
   public void setFillPolicies(final List<String> policies) {
@@ -386,7 +386,7 @@ final class MetricForm extends HorizontalPanel implements Focusable {
       fill_policy.addItem(policy);
     }
     // TODO: don't assume we will get this.
-    setSelectedItem(fill_policy, "lerp");
+    setSelectedItem(fill_policy, "линтерпол");
   }
 
   public boolean buildQueryString(final StringBuilder url) {
@@ -540,9 +540,9 @@ final class MetricForm extends HorizontalPanel implements Focusable {
     final int row = tagtable.getRowCount();
     
     final ValidatedTextBox tagname = new ValidatedTextBox();
-    final SuggestBox suggesttagk = RemoteOracle.newSuggestBox("tagk", tagname);
+    final SuggestBox suggesttagk = RemoteOracle.newSuggestBox("тэг-ключ", tagname);
     final ValidatedTextBox tagvalue = new ValidatedTextBox();
-    final SuggestBox suggesttagv = RemoteOracle.newSuggestBox("tagv", tagvalue);
+    final SuggestBox suggesttagv = RemoteOracle.newSuggestBox("тэг-знач", tagvalue);
     final CheckBox groupby = new CheckBox();
     groupby.setValue(is_groupby);
     groupby.setTitle("Group by");

@@ -264,7 +264,7 @@ final class DateTimeBox extends DateBox {
         final VerticalPanel vbox = new VerticalPanel();
         setStyleName(vbox.getElement(), "datePickerMonthSelector");
 
-        final PushButton now = new PushButton("now");
+        final PushButton now = new PushButton("сейчас");
         now.setStyleName("datePickerNextButton");
         now.addClickHandler(new ClickHandler() {
           public void onClick(final ClickEvent event) {
@@ -330,7 +330,7 @@ final class DateTimeBox extends DateBox {
 
         {
           final HorizontalPanel hbox = new HorizontalPanel();
-          hbox.add(new InlineLabel("UNIX timestamp:"));
+          hbox.add(new InlineLabel("метка времени UNIX :"));
           final ValidatedTextBox ts = new ValidatedTextBox();
           ts.setValidationRegexp("^(|[1-9][0-9]{0,9})$");
           ts.setVisibleLength(10);

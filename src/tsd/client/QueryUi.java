@@ -126,7 +126,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
 
   private final DateTimeBox start_datebox = new DateTimeBox();
   private final DateTimeBox end_datebox = new DateTimeBox();
-  private final CheckBox autoreload = new CheckBox("Autoreload");
+  private final CheckBox autoreload = new CheckBox("Автоперезагрузка");
   private final ValidatedTextBox autoreoload_interval = new ValidatedTextBox();
   private Timer autoreoload_timer;
 
@@ -142,7 +142,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
   private final CheckBox global_annotations = new CheckBox("Global annotations");
 
   private String keypos = "";  // Position of the key on the graph.
-  private final CheckBox horizontalkey = new CheckBox("Horizontal layout");
+  private final CheckBox horizontalkey = new CheckBox("Горизонтальный слой");
   private final CheckBox keybox = new CheckBox("Box");
   private final CheckBox nokey = new CheckBox("No key (overrides others)");
 
@@ -236,7 +236,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
   // Other misc panels.
   private final FlexTable logs = new FlexTable();
   private final FlexTable stats_table = new FlexTable();
-  private final HTML build_data = new HTML("Loading...");
+  private final HTML build_data = new HTML("Загрузка...");
 
   /**
    * This is the entry point method.
@@ -337,11 +337,11 @@ public class QueryUi implements EntryPoint, HistoryListener {
                 + (Window.getClientHeight() * 4 / 5));
 
     final FlexTable table = new FlexTable();
-    table.setText(0, 0, "From");
+    table.setText(0, 0, "С");
     {
       final HorizontalPanel hbox = new HorizontalPanel();
-      hbox.add(new InlineLabel("To"));
-      final Anchor now = new Anchor("(now)");
+      hbox.add(new InlineLabel("до"));
+      final Anchor now = new Anchor("(сейчас)");
       now.addClickHandler(new ClickHandler() {
         public void onClick(final ClickEvent event) {
           end_datebox.setValue(new Date());
@@ -359,9 +359,9 @@ public class QueryUi implements EntryPoint, HistoryListener {
         if (autoreload.getValue()) {
           final HorizontalPanel hbox = new HorizontalPanel();
           hbox.setWidth("100%");
-          hbox.add(new InlineLabel("Every:"));
+          hbox.add(new InlineLabel("Кажд.:"));
           hbox.add(autoreoload_interval);
-          hbox.add(new InlineLabel("seconds"));
+          hbox.add(new InlineLabel("сек."));
           table.setWidget(1, 1, hbox);
           if (autoreoload_interval.getValue().isEmpty()) {
             autoreoload_interval.setValue("15");
@@ -392,16 +392,16 @@ public class QueryUi implements EntryPoint, HistoryListener {
       table.setWidget(0, 4, hbox);
     }
     {
-      addMetricForm("metric 1", 0);
+      addMetricForm("метрика 1", 0);
       metrics.selectTab(0);
-      metrics.add(new InlineLabel("Loading..."), "+");
+      metrics.add(new InlineLabel("Загрузка..."), "+");
       metrics.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
         public void onBeforeSelection(final BeforeSelectionEvent<Integer> event) {
           final int item = event.getItem();
           final int nitems = metrics.getWidgetCount();
           if (item == nitems - 1) {  // Last item: the "+" was clicked.
             event.cancel();
-            final MetricForm metric = addMetricForm("metric " + nitems, item);
+            final MetricForm metric = addMetricForm("метрика " + nitems, item);
             metrics.selectTab(item);
             metric.setFocus(true);
           }
@@ -412,9 +412,9 @@ public class QueryUi implements EntryPoint, HistoryListener {
     table.getFlexCellFormatter().setColSpan(2, 0, 2);
     table.getFlexCellFormatter().setRowSpan(1, 3, 2);
     final DecoratedTabPanel optpanel = new DecoratedTabPanel();
-    optpanel.add(makeAxesPanel(), "Axes");
-    optpanel.add(makeKeyPanel(), "Key");
-    optpanel.add(makeStylePanel(), "Style");
+    optpanel.add(makeAxesPanel(), "Оси");
+    optpanel.add(makeKeyPanel(), "Ключ");
+    optpanel.add(makeStylePanel(), "Стиль");
     optpanel.selectTab(0);
     table.setWidget(1, 3, optpanel);
     table.getFlexCellFormatter().setColSpan(1, 3, 2);
@@ -449,7 +449,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
       graphvbox.add(graphbox);
       graph.addErrorHandler(new ErrorHandler() {
         public void onError(final ErrorEvent event) {
-          graphstatus.setText("Oops, failed to load the graph.");
+          graphstatus.setText("Упс, не удалось загрузить график.");
         }
       });
       graph.addLoadHandler(new LoadHandler() {
@@ -463,10 +463,10 @@ public class QueryUi implements EntryPoint, HistoryListener {
     }
     final DecoratedTabPanel mainpanel = new DecoratedTabPanel();
     mainpanel.setWidth("100%");
-    mainpanel.add(graphpanel, "Graph");
-    mainpanel.add(stats_table, "Stats");
-    mainpanel.add(logs, "Logs");
-    mainpanel.add(build_data, "Version");
+    mainpanel.add(graphpanel, "График");
+    mainpanel.add(stats_table, "Статистика");
+    mainpanel.add(logs, "Журналы");
+    mainpanel.add(build_data, "Версия");
     mainpanel.selectTab(0);
     mainpanel.addBeforeSelectionHandler(new BeforeSelectionHandler<Integer>() {
       public void onBeforeSelection(final BeforeSelectionEvent<Integer> event) {
@@ -519,16 +519,16 @@ public class QueryUi implements EntryPoint, HistoryListener {
     grid.setText(0, 1, "Y");
     grid.setText(0, 2, "Y2");
     setTextAlignCenter(grid.getRowFormatter().getElement(0));
-    grid.setText(1, 0, "Label");
+    grid.setText(1, 0, "Надпись");
     grid.setWidget(1, 1, ylabel);
     grid.setWidget(1, 2, y2label);
-    grid.setText(2, 0, "Format");
+    grid.setText(2, 0, "Формат");
     grid.setWidget(2, 1, yformat);
     grid.setWidget(2, 2, y2format);
-    grid.setText(3, 0, "Range");
+    grid.setText(3, 0, "Диапазон");
     grid.setWidget(3, 1, yrange);
     grid.setWidget(3, 2, y2range);
-    grid.setText(4, 0, "Log scale");
+    grid.setText(4, 0, "Лог. шкала");
     grid.setWidget(4, 1, ylog);
     grid.setWidget(4, 2, y2log);
     setTextAlignCenter(grid.getCellFormatter().getElement(4, 1));
@@ -604,7 +604,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
     cf.getElement(3, 3).getStyle().setProperty("borderBottom", "1px solid #000");
     cf.getElement(3, 3).getStyle().setProperty("borderRight", "1px solid #000");
     final VerticalPanel vbox = new VerticalPanel();
-    vbox.add(new InlineLabel("Key location:"));
+    vbox.add(new InlineLabel("Расположение:"));
     vbox.add(grid);
     vbox.add(horizontalkey);
     keybox.setValue(true);
@@ -647,10 +647,10 @@ public class QueryUi implements EntryPoint, HistoryListener {
         final JSONString repo = bd.get("repo").isString();
         final JSONString version = bd.get("version").isString();
         build_data.setHTML(
-          "OpenTSDB version [" + version.stringValue() + "] built from revision " 
+          "OpenTSDB версия [" + version.stringValue() + "] собрана из "
           + shortrev.stringValue()
           + " in a " + status.stringValue() + " state<br/>"
-          + "Built on " + new Date((Long.parseLong(stamp.stringValue()) * 1000))
+          + "Собрана в " + new Date((Long.parseLong(stamp.stringValue()) * 1000))
           + " by " + user.stringValue() + '@' + host.stringValue()
           + ':' + repo.stringValue());
       }
@@ -816,7 +816,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
     final ArrayList<String> newmetrics = qs.get("m");
     if (newmetrics == null) {  // Clear all metric forms.
       final int toremove = metrics.getWidgetCount() - 1;
-      addMetricForm("metric 1", 0);
+      addMetricForm("метрика 1", 0);
       metrics.selectTab(0);
       for (int i = 0; i < toremove; i++) {
         metrics.remove(1);
@@ -882,14 +882,14 @@ public class QueryUi implements EntryPoint, HistoryListener {
   private void refreshGraph() {
     final Date start = start_datebox.getValue();
     if (start == null) {
-      graphstatus.setText("Please specify a start time.");
+      graphstatus.setText("Пожалуйста, укажите время начала (эксперимента).");
       return;
     }
     final Date end = end_datebox.getValue();
     if (end != null && !autoreload.getValue()) {
       if (end.getTime() <= start.getTime()) {
         end_datebox.addStyleName("dateBoxFormatError");
-        graphstatus.setText("End time must be after start time!");
+        graphstatus.setText("Время окончания должно быть после времени начала!");
         return;
       }
     }
@@ -968,7 +968,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
       return;
     }
     lastgraphuri = uri;
-    graphstatus.setText("Loading graph...");
+    graphstatus.setText("Загрузка графика...");
     asyncGetJson(uri + "&json", new GotJsonCallback() {
       public void got(final JSONValue json) {
         if (autoreoload_timer != null) {
@@ -979,9 +979,9 @@ public class QueryUi implements EntryPoint, HistoryListener {
         final JSONValue err = result.get("err");
         String msg = "";
         if (err != null) {
-          displayError("An error occurred while generating the graph: "
+          displayError("Возникла ошибка во время создания графика: "
                        + err.isString().stringValue());
-          graphstatus.setText("Please correct the error above.");
+          graphstatus.setText("Пожалуйста, исправьте вышестоящую ошибку.");
         } else {
           clearError();
 
@@ -997,17 +997,17 @@ public class QueryUi implements EntryPoint, HistoryListener {
           final JSONValue nplotted = result.get("plotted");
           final JSONValue cachehit = result.get("cachehit");
           if (cachehit != null) {
-            msg += "Cache hit (" + cachehit.isString().stringValue() + "). ";
+            msg += "Обращение к кэшу (" + cachehit.isString().stringValue() + "). ";
           }
           if (nplotted != null && nplotted.isNumber().doubleValue() > 0) {
             graph.setUrl(uri + "&png");
             graph.setVisible(true);
 
-            msg += result.get("points").isNumber() + " points retrieved, "
-              + nplotted + " points plotted";
+            msg += result.get("points").isNumber() + " точек извлечено, "
+              + nplotted + " точек отображено";
           } else {
             graph.setVisible(false);
-            msg += "Your query didn't return anything";
+            msg += "Ваш запрос ничего не вернул";
           }
           final JSONValue timing = result.get("timing");
           if (timing != null) {
@@ -1080,7 +1080,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
       found_metric |= metric.buildQueryString(url);
     }
     if (!found_metric) {
-      graphstatus.setText("Please specify a metric.");
+      graphstatus.setText("Пожалуйста укажите метрику.");
     }
     return found_metric;
   }
@@ -1090,7 +1090,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
     try {
       builder.sendRequest(null, new RequestCallback() {
         public void onError(final Request request, final Throwable e) {
-          displayError("Failed to get " + url + ": " + e.getMessage());
+          displayError("Ошибка получения " + url + ": " + e.getMessage());
           // Since we don't call the callback we've been given, reset this
           // bit of state as we're not going to retry anything right now.
           pending_requests = 0;
@@ -1120,7 +1120,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
               // it contains a stack trace), show only the first line and
               // hide the rest in a panel users can expand.
               final int newline = err.indexOf('\n', 1);
-              final String msg = "Request failed: " + response.getStatusText();
+              final String msg = "Ошибка запроса: " + response.getStatusText();
               if (newline < 0) {
                 displayError(msg + ": " + err);
               } else {
@@ -1135,7 +1135,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
                 current_error.getElement().appendChild(dp.getElement());
               }
             } else {
-              displayError("Request failed while getting " + url + ": "
+              displayError("Запрос завершен с ошибкой при получении " + url + ": "
                            + response.getStatusText());
               // Since we don't call the callback we've been given, reset this
               // bit of state as we're not going to retry anything right now.
@@ -1146,7 +1146,7 @@ public class QueryUi implements EntryPoint, HistoryListener {
         }
       });
     } catch (RequestException e) {
-      displayError("Failed to get " + url + ": " + e.getMessage());
+      displayError("Запрос завершен с ошибкой " + url + ": " + e.getMessage());
     }
   }
 
